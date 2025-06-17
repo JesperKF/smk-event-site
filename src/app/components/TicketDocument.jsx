@@ -4,16 +4,14 @@ import {
   Text,
   View,
   StyleSheet,
+  Image,
 } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
   page: {
     backgroundColor: "#ffffff",
     color: "#000000",
-    paddingTop: 40,
-    paddingRight: 40,
-    paddingBottom: 40,
-    paddingLeft: 0,
+    padding: 40,
     fontSize: 10,
   },
   frame: {
@@ -45,9 +43,14 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     fontWeight: "400",
   },
+  qrCode: {
+    marginTop: 20,
+    width: 80,
+    height: 80,
+  },
 });
 
-const TicketDocument = ({ event, tickets, name, email }) => (
+const TicketDocument = ({ event, tickets, name, email, qrCodeDataUrl }) => (
   <Document>
     <Page
       size="A6"
@@ -72,11 +75,19 @@ const TicketDocument = ({ event, tickets, name, email }) => (
               {new Date(event.date).toLocaleDateString("da-DK")}
             </Text>
           </View>
+
           <View style={styles.column}>
             <Text style={styles.infoLabel}>Antal Billetter:</Text>
             <Text style={styles.infoText}>{tickets}x</Text>
           </View>
         </View>
+
+        {qrCodeDataUrl && (
+          <Image
+            style={styles.qrCode}
+            src={qrCodeDataUrl}
+          />
+        )}
       </View>
     </Page>
   </Document>
